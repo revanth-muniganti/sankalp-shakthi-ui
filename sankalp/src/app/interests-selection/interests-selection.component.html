@@ -1,0 +1,48 @@
+<div class="interests-modal-overlay" (click)="onClose()">
+  <div class="interests-modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header-custom">
+      <button type="button" class="close-btn" (click)="onClose()" aria-label="Close">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="modal-body-custom">
+      <div class="text-center mb-4">
+        <h2 class="modal-title">To start, what interests you most right now?</h2>
+        <p class="selection-limit">SELECT UP TO {{ maxSelections }}</p>
+        <p class="selected-count" *ngIf="selectedCount > 0">
+          {{ selectedCount }} of {{ maxSelections }} selected
+        </p>
+      </div>
+
+      <div class="interests-grid">
+        <div
+          *ngFor="let interest of interests"
+          class="interest-card"
+          [class.selected]="interest.selected"
+          [class.disabled]="!interest.selected && !canSelectMore()"
+          (click)="toggleInterest(interest)"
+        >
+          <div class="interest-icon-wrapper">
+            <i class="bi" [ngClass]="interest.icon"></i>
+          </div>
+          <div class="interest-name">{{ interest.name }}</div>
+          <div class="checkmark" *ngIf="interest.selected">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer-custom">
+        <button
+          type="button"
+          class="btn-submit"
+          [disabled]="selectedCount === 0"
+          (click)="onSubmit()"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

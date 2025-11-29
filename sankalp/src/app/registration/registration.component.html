@@ -1,0 +1,169 @@
+<div class="container-fluid d-flex align-items-center justify-content-center py-3 py-md-4 registration-container">
+  <div class="row w-100 justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-4 p-md-5">
+          <!-- Logo Section -->
+          <div class="text-center mb-4">
+            <img src="assets/logo.png" alt="Logo" class="img-fluid mb-3" style="max-height: 100px;">
+            <h2 class="card-title mb-2">Registration</h2>
+            <p class="text-muted">Create your account to get started</p>
+          </div>
+
+          <!-- Error Message -->
+          <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ errorMessage }}
+          </div>
+
+          <!-- Success Message -->
+          <div class="alert alert-success" *ngIf="successMessage" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ successMessage }}
+          </div>
+
+          <!-- Registration Form -->
+          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <!-- Email Field -->
+              <div class="mb-3">
+                <label for="email" class="form-label fw-semibold">Email Address</label>
+                <div class="input-icon-wrapper">
+                  <i class="bi bi-envelope input-icon"></i>
+                  <input
+                    type="email"
+                    class="form-control input-with-icon"
+                    [class.is-invalid]="email?.invalid && email?.touched"
+                    id="email"
+                    formControlName="email"
+                    placeholder="Enter your email address"
+                    aria-describedby="emailFeedback"
+                  >
+                </div>
+                <div id="emailFeedback" class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
+                  <span *ngIf="email?.errors?.['required']">Email is required</span>
+                  <span *ngIf="email?.errors?.['email']">Please enter a valid email address</span>
+                </div>
+              </div>
+
+              <!-- Password Field -->
+              <div class="mb-3">
+                <label for="password" class="form-label fw-semibold">Password</label>
+                <div class="input-icon-wrapper">
+                  <i class="bi bi-lock input-icon"></i>
+                  <input
+                    [type]="showPassword ? 'text' : 'password'"
+                    class="form-control input-with-icon input-with-icon-right"
+                    [class.is-invalid]="password?.invalid && password?.touched"
+                    id="password"
+                    formControlName="password"
+                    placeholder="Enter your password"
+                    aria-describedby="passwordFeedback"
+                  >
+                  <button
+                    type="button"
+                    class="password-toggle-btn"
+                    (click)="togglePasswordVisibility()"
+                    tabindex="-1"
+                  >
+                    <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+                  </button>
+                </div>
+                <div id="passwordFeedback" class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
+                  <span *ngIf="password?.errors?.['required']">Password is required</span>
+                  <span *ngIf="password?.errors?.['minlength']">Password must be at least 8 characters long</span>
+                  <span *ngIf="password?.errors?.['passwordStrength']">Password must contain uppercase, lowercase, number, and special character</span>
+                </div>
+                <small class="form-text text-muted">
+                  Password must be at least 8 characters with uppercase, lowercase, number, and special character
+                </small>
+              </div>
+
+              <!-- Confirm Password Field -->
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
+                <div class="input-icon-wrapper">
+                  <i class="bi bi-lock-fill input-icon"></i>
+                  <input
+                    type="password"
+                    class="form-control input-with-icon"
+                    [class.is-invalid]="(confirmPassword?.invalid && confirmPassword?.touched) || (registrationForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
+                    id="confirmPassword"
+                    formControlName="confirmPassword"
+                    placeholder="Confirm your password"
+                    aria-describedby="confirmPasswordFeedback"
+                  >
+                </div>
+                <div id="confirmPasswordFeedback" class="invalid-feedback" *ngIf="(confirmPassword?.invalid && confirmPassword?.touched) || (registrationForm.errors?.['passwordMismatch'] && confirmPassword?.touched)">
+                  <span *ngIf="confirmPassword?.errors?.['required']">Please confirm your password</span>
+                  <span *ngIf="registrationForm.errors?.['passwordMismatch']">Passwords do not match</span>
+                </div>
+              </div>
+
+              <!-- Country Code and Mobile Number Field -->
+              <div class="mb-3">
+                <label for="mobileCountryHint" class="form-label fw-semibold">Country</label>
+                <select
+                  class="form-select"
+                  [class.is-invalid]="mobileCountryHint?.invalid && mobileCountryHint?.touched"
+                  id="mobileCountryHint"
+                  formControlName="mobileCountryHint"
+                  aria-describedby="countryFeedback"
+                >
+                  <option *ngFor="let country of countryCodes" [value]="country.code">
+                    {{ country.name }} ({{ country.prefix }})
+                  </option>
+                </select>
+                <div id="countryFeedback" class="invalid-feedback" *ngIf="mobileCountryHint?.invalid && mobileCountryHint?.touched">
+                  <span *ngIf="mobileCountryHint?.errors?.['required']">Country is required</span>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label for="mobileNumber" class="form-label fw-semibold">Mobile Number</label>
+                <div class="input-icon-wrapper">
+                  <i class="bi bi-phone input-icon"></i>
+                  <input
+                    type="tel"
+                    class="form-control input-with-icon"
+                    [class.is-invalid]="mobileNumber?.invalid && mobileNumber?.touched"
+                    id="mobileNumber"
+                    formControlName="mobileNumber"
+                    placeholder="Enter your 10-digit mobile number"
+                    maxlength="10"
+                    aria-describedby="mobileFeedback"
+                  >
+                </div>
+                <div id="mobileFeedback" class="invalid-feedback" *ngIf="mobileNumber?.invalid && mobileNumber?.touched">
+                  <span *ngIf="mobileNumber?.errors?.['required']">Mobile number is required</span>
+                  <span *ngIf="mobileNumber?.errors?.['pattern']">Please enter a valid 10-digit mobile number</span>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-12">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center"
+                  [disabled]="registrationForm.invalid || isLoading"
+                >
+                  <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  <span *ngIf="!isLoading">Register</span>
+                  <span *ngIf="isLoading">Registering...</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Additional Links (Optional) -->
+          <div class="text-center mt-4">
+            <p class="mb-0 text-muted">
+              Already have an account?
+              <a routerLink="/login" class="text-decoration-none">Sign in</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

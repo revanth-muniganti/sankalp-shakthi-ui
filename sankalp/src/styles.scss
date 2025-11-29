@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Import Bootstrap 5.3 */
+*{
+    font-family: 'Roboto','sans-serif';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.css';

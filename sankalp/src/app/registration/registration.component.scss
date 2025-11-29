@@ -1,0 +1,237 @@
+// Brand Colors - Based on logo
+$maroon: #8B0000;
+$deep-red: #800020;
+$golden-yellow: #FFD700;
+$light-gold: #FFE87C;
+$off-white: #FAF9F6;
+
+.card {
+  border-radius: 1rem;
+  background-color: $off-white;
+  border: 1px solid rgba(139, 0, 0, 0.1);
+}
+
+.card-body {
+  border-radius: 1rem;
+}
+
+.card-title {
+  color: $deep-red;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+// Input Icon Wrapper
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  color: rgba(139, 0, 0, 0.5);
+  font-size: 1.1rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.form-control {
+  border-radius: 0.2rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(139, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  background-color: #fff;
+  height: auto;
+  min-height: 50px;
+  outline: none !important;
+  font-size: 14px;
+
+  &.input-with-icon {
+    padding-left: 3rem;
+  }
+
+  &.input-with-icon-right {
+    padding-right: 3rem;
+  }
+
+  &:focus {
+    border-color: none;
+    box-shadow: none;
+
+    ~ .input-icon {
+      color: $maroon;
+    }
+  }
+
+  &.is-invalid {
+    border-color: #dc3545;
+  }
+
+  // Disable Bootstrap validation icons (checkmarks)
+  &.is-valid {
+    background-image: none !important;
+    padding-right: 0.75rem;
+    background-color: #fff !important;
+  }
+
+  // Remove blue autofill background
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #fff inset !important;
+    -webkit-text-fill-color: #000 !important;
+    background-color: #fff !important;
+  }
+
+  &::placeholder {
+    color: rgba(139, 0, 0, 0.4);
+  }
+}
+
+// Password Toggle Button
+.password-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: rgba(139, 0, 0, 0.5);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $maroon;
+  }
+
+  &:focus {
+    outline: none;
+    color: $maroon;
+  }
+
+  i {
+    pointer-events: none;
+  }
+}
+
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, $maroon 0%, $deep-red 100%);
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(139, 0, 0, 0.2);
+  height: 40px;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, $deep-red 0%, $maroon 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+    color: $golden-yellow;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(139, 0, 0, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: linear-gradient(135deg, $maroon 0%, $deep-red 100%);
+  }
+}
+
+.form-label {
+  color: $deep-red;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+img {
+  object-fit: contain;
+}
+
+.text-muted {
+  color: rgba(139, 0, 0, 0.6) !important;
+}
+
+a {
+  color: $maroon;
+  font-weight: 600;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $deep-red;
+    text-decoration: underline !important;
+  }
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875rem;
+}
+
+// Background with subtle gradient
+.registration-container {
+  background: linear-gradient(135deg, #fff 0%, $off-white 100%);
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+  
+  // On larger screens, reduce padding to prevent scroll
+  @media (min-width: 992px) {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    
+    .card-body {
+      padding: 2rem 3rem !important;
+    }
+  }
+}
+
+// Prevent horizontal scroll
+body, html {
+  overflow-x: hidden;
+}
+
+// Large screen adjustments
+@media (min-width: 992px) {
+  .container-fluid {
+    padding: 2rem 1rem;
+  }
+
+  .card-body {
+    padding: 2.5rem 3rem !important;
+  }
+}
+
+// Mobile responsive adjustments
+@media (max-width: 576px) {
+  .card-body {
+    padding: 1.5rem !important;
+  }
+
+  .container-fluid {
+    padding: 1rem;
+    min-height: 100vh;
+    height: auto;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+  }
+}
+
