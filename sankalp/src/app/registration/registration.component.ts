@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { ApiService, RegistrationRequest } from '../services/api.service';
+import { ApiService, RegistrationRequest, RegistrationResponse } from '../services/api.service';
 
 @Component({
   selector: 'app-registration',
@@ -14,6 +14,7 @@ import { ApiService, RegistrationRequest } from '../services/api.service';
 export class RegistrationComponent {
   registrationForm: FormGroup;
   showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   isLoading: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
@@ -44,7 +45,7 @@ export class RegistrationComponent {
         Validators.required, 
         Validators.pattern(/^[0-9]{10}$/)
       ]],
-      mobileCountryHint: ['US', [Validators.required]]
+      mobileCountryHint: ['IN', [Validators.required]]
     }, {
       validators: this.passwordMatchValidator
     });
@@ -91,32 +92,35 @@ export class RegistrationComponent {
     if (this.registrationForm.valid) {
       this.isLoading = true;
 
-      // Format mobile number with country code
-      const countryCode = this.countryCodes.find(c => c.code === this.registrationForm.value.mobileCountryHint);
-      const formattedMobileNumber = countryCode 
-        ? `${countryCode.prefix}${this.registrationForm.value.mobileNumber}`
-        : `+1${this.registrationForm.value.mobileNumber}`;
-
+      // Send mobile number as string (without country code prefix)
+      // The API expects mobile_number as a string and mobile_country_hint separately
       const registrationData: RegistrationRequest = {
         email: this.registrationForm.value.email.toLowerCase().trim(),
         password: this.registrationForm.value.password,
-        mobile_number: formattedMobileNumber,
+        mobile_number: this.registrationForm.value.mobileNumber,
         mobile_country_hint: this.registrationForm.value.mobileCountryHint
       };
 
       this.apiService.register(registrationData).subscribe({
-        next: (response) => {
+        next: (response: RegistrationResponse) => {
           this.isLoading = false;
-          this.successMessage = 'Registration successful! Redirecting to login...';
+          this.successMessage = `Registration successful! Welcome ${response.email}. Redirecting to login...`;
           
           // Navigate to login page after 2 seconds
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, 2000);
         },
-        error: (error) => {
+        error: (error: any) => {
           this.isLoading = false;
-          this.errorMessage = error.message || 'Registration failed. Please try again.';
+          // Handle different error formats
+          if (error.error?.detail) {
+            this.errorMessage = error.error.detail;
+          } else if (error.message) {
+            this.errorMessage = error.message;
+          } else {
+            this.errorMessage = 'Registration failed. Please try again.';
+          }
         }
       });
     } else {
@@ -132,7 +136,7 @@ export class RegistrationComponent {
   }
 
   get password() {
-    return this.registrationForm.get('password');
+    return this.registrationForm.get('password'); 
   }
 
   get confirmPassword() {
@@ -149,5 +153,9 @@ export class RegistrationComponent {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 }

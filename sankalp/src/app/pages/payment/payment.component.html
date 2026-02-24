@@ -1,0 +1,98 @@
+<div class="payment-page">
+  <!-- App Header - Fixed -->
+  <app-header></app-header>
+
+  <!-- Main Payment Content -->
+  <section class="payment-section">
+    <div class="container-fluid">
+      <!-- Back Navigation -->
+      <div class="back-navigation mb-4">
+        <a (click)="goBack()" class="back-link">
+          <i class="bi bi-arrow-left"></i>
+          <span>Back</span>
+        </a>
+      </div>
+
+      <div class="row g-4">
+        <!-- Left Column - Payment Details -->
+        <div class="col-lg-12">
+          <div class="payment-card">
+            <h2 class="payment-title">Payment Details</h2>
+
+            <!-- Payment Method Selection -->
+            <div class="payment-methods">
+              <label class="section-label">Select Payment Method</label>
+              <div class="method-options">
+                <div 
+                  class="method-card" 
+                  [class.selected]="selectedPaymentMethod === 'upi'"
+                  (click)="selectPaymentMethod('upi')">
+                  <div class="method-icon">
+                    <i class="bi bi-phone"></i>
+                    <span class="rupee-symbol">₹</span>
+                  </div>
+                  <span class="method-name">UPI</span>
+                </div>
+                <div 
+                  class="method-card" 
+                  [class.selected]="selectedPaymentMethod === 'card'"
+                  (click)="selectPaymentMethod('card')">
+                  <div class="method-icon">
+                    <i class="bi bi-credit-card"></i>
+                  </div>
+                  <span class="method-name">Card</span>
+                </div>
+                <div 
+                  class="method-card" 
+                  [class.selected]="selectedPaymentMethod === 'netbanking'"
+                  (click)="selectPaymentMethod('netbanking')">
+                  <div class="method-icon">
+                    <i class="bi bi-bank"></i>
+                  </div>
+                  <span class="method-name">Net Banking</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- UPI ID Input -->
+            <div class="upi-section" *ngIf="selectedPaymentMethod === 'upi'">
+              <label class="form-label">UPI ID</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="yourname@upi"
+                [(ngModel)]="upiId">
+              
+              <div class="popular-upi">
+                <span class="popular-label">Popular:</span>
+                <div class="upi-handles">
+                  <span 
+                    class="upi-handle" 
+                    *ngFor="let handle of popularUpiHandles"
+                    (click)="selectUpiHandle(handle)">
+                    {{ handle }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Security Notice -->
+            <div class="security-notice">
+              <i class="bi bi-shield-check"></i>
+              <span>Your payment is secured with 256-bit SSL encryption</span>
+            </div>
+
+            <!-- Pay Button -->
+            <button class="btn btn-primary pay-button" (click)="processPayment()">
+              Pay ₹{{ service.total | number }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column - Order Summary -->
+
+      </div>
+    </div>
+  </section>
+
+</div>

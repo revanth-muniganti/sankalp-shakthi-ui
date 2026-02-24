@@ -1,0 +1,157 @@
+<div class="service-details-page">
+  <!-- App Header - Fixed -->
+  <app-header></app-header>
+
+  <!-- Main Content -->
+  <section class="service-details-section">
+      <!-- Back Navigation -->
+      <div class="back-navigation mb-4">
+        <a (click)="goBackToServices()" class="back-link">
+          <i class="bi bi-arrow-left"></i>
+          <span>Back to Services</span>
+        </a>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center p-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Loading service details...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="!loading && errorMessage" class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ errorMessage }}
+        <button class="btn btn-sm btn-outline-danger ms-3" (click)="goBackToServices()">
+          Go Back
+        </button>
+      </div>
+
+      <!-- Service Details Content -->
+      <div class="row" *ngIf="!loading && !errorMessage && service.id > 0">
+        <!-- Left Column - Image -->
+        <div class="col-lg-5 col-md-6">
+          <div class="service-image-container">
+            <div class="service-image-wrapper">
+              <img [src]="service.image" [alt]="service.name" class="service-main-image">
+              <span class="popular-badge" *ngIf="service.popular">
+                <i class="bi bi-star-fill"></i>
+                Popular Choice
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - Details -->
+        <div class="col-lg-7 col-md-6">
+          <div class="service-details-content">
+            <!-- Category Tag -->
+            <span class="category-tag" *ngIf="service.category">{{ service.category }}</span>
+
+            <!-- Service Title -->
+            <h1 class="service-title">{{ service.name }}</h1>
+
+            <!-- Service Meta Info -->
+            <div class="service-meta-info d-flex gap-2 mb-2">
+              <div class="meta-item">
+                <i class="bi bi-clock"></i>
+                <span>{{ service.duration }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>{{ service.location }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="bi bi-person-badge"></i>
+                <span>{{ service.priest }}</span>
+              </div>
+              <div class="meta-item" *ngIf="service.rating !== null">
+                <i class="bi bi-star-fill"></i>
+                <span>{{ service.rating }} <span *ngIf="service.reviews > 0">({{ service.reviews }} reviews)</span></span>
+              </div>
+            </div>
+
+            <!-- Service Description -->
+            <div class="service-description" *ngIf="service.description">
+              <p>{{ service.description }}</p>
+            </div>
+
+            <!-- Key Insights -->
+            <!-- <div class="service-description" *ngIf="service.key_insights_descr">
+              <h3>Key Insights</h3>
+              <p>{{ service.key_insights_descr }}</p>
+            </div> -->
+
+            <!-- Additional Description -->
+            <!-- <div class="service-description" *ngIf="service.descr3">
+              <h3>Additional Information</h3>
+              <p>{{ service.descr3 }}</p>
+            </div> -->
+
+            <!-- Pricing Box -->
+            <div class="pricing-box">
+              <div class="pricing-content">
+                <div class="price-info">
+                  <span class="starting-from" *ngIf="service.price !== 'Price on request'">Starting from</span>
+                  <div class="price">{{ service.price }}</div>
+                </div>
+                <div class="help-contact">
+                  <i class="bi bi-telephone"></i>
+                  <span>Need help? Call us at +91 98765 43210</span>
+                </div>
+              </div>
+              <button class="btn btn-primary book-now-btn" (click)="bookNow()">
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Benefits and What's Included Section -->
+      <div class="row g-4 mt-4 mb-3" *ngIf="!loading && !errorMessage && service.id > 0">
+        <!-- Benefits Card -->
+        <div class="col-lg-6 col-md-6">
+          <div class="info-card benefits-card">
+            <div class="card-header d-flex align-items-center gap-2 mb-2">
+              <div class="card-icon benefits-icon">
+                <i class="bi bi-stars"></i>
+              </div>
+              <h3 class="card-title">Benefits</h3>
+            </div>
+            <ul class="card-list" *ngIf="service.benefits && service.benefits.length > 0">
+              <li *ngFor="let benefit of service.benefits">
+                <i class="bi bi-check-circle-fill"></i>
+                <span>{{ benefit }}</span>
+              </li>
+            </ul>
+            <div *ngIf="!service.benefits || service.benefits.length === 0" class="text-muted">
+              <p>No benefits information available.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- What's Included Card -->
+        <div class="col-lg-6 col-md-6">
+          <div class="info-card included-card">
+            <div class="card-header d-flex align-items-center gap-2 mb-2">
+              <div class="card-icon included-icon">
+                <i class="bi bi-calendar-check"></i>
+              </div>
+              <h3 class="card-title">What's Included</h3>
+            </div>
+            <ul class="card-list">
+              <li *ngFor="let item of service.included">
+                <i class="bi bi-check-circle-fill"></i>
+                <span>{{ item }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  </section>
+
+
+</div>

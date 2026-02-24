@@ -1,0 +1,184 @@
+.app-footer {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: #ecf0f1;
+    padding: 3rem 0 1rem;
+    position: relative;
+
+   
+    .footer-brand {
+      .footer-logo-section {
+       .logosymbol{
+        width: 50px;
+       }
+
+        .logo-text {
+          h5 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ecf0f1;
+            margin-left: 0.5rem;
+          }
+        }
+      }
+
+      .footer-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #bdc3c7;
+        margin-bottom: 1.5rem;
+      }
+
+      .social-media-icons {
+        .social-icon {
+          width: 40px;
+          height: 40px;
+          background: linear-gradient(135deg, #8B0000, #d4af37);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          text-decoration: none;
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            background: #ff8533;
+          }
+
+          i {
+            line-height: 1;
+          }
+        }
+      }
+    }
+
+    .footer-heading {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #ecf0f1;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin-bottom: 0.75rem;
+
+        a {
+          color: #bdc3c7;
+          text-decoration: none;
+          transition: color 0.3s ease;
+          font-size: 0.95rem;
+
+          &:hover {
+            color: #FFD700; // Golden hover color
+            padding-left: 0.25rem;
+          }
+        }
+      }
+    }
+
+    .footer-contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.95rem;
+        line-height: 1.5;
+
+        i {
+          color: #FFD700; // Golden icon color
+          font-size: 1.1rem;
+          width: 20px;
+          flex-shrink: 0;
+          margin-top: 0.125rem;
+        }
+
+        span {
+          color: rgba(255, 255, 255, 0.9);
+          flex: 1;
+        }
+      }
+    }
+  }
+
+// Separator Line
+.footer-separator {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 100%;
+}
+
+// Bottom Footer Bar
+.footer-bottom {
+  padding-top: 1rem;
+
+  .copyright {
+    color: #bdc3c7;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  .footer-policies {
+    .policy-link {
+      color: #bdc3c7;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #ecf0f1;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.app-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #8B0000, #d4af37, #8B0000);
+}
+
+.footer-heading::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #8B0000, #d4af37);
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .app-footer {
+    padding: 2rem 0;
+
+    .footer-section {
+      margin-bottom: 2rem;
+
+      .footer-brand {
+        .social-media-icons {
+          justify-content: flex-start;
+        }
+      }
+    }
+  }
+}

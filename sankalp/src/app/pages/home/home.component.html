@@ -1,0 +1,82 @@
+<div class="home-page">
+  <!-- App Header -->
+  <app-header></app-header>
+
+  <!-- Hero Section -->
+  <section class="hero-section position-relative">
+    <!-- Background Image Overlay -->
+    <div class="hero-background" [ngStyle]="{'background-image': 'linear-gradient(135deg, rgba(139, 69, 19, 0.9) 0%, rgba(101, 50, 15, 0.95) 100%), url(' + backgroundImage + ')'}"></div>
+    
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-6 col-md-8">
+          <!-- Banner Badge -->
+          <div class="banner-badge mb-3">
+            <span class="badge-text">India's Largest Vedic Platform</span>
+          </div>
+
+          <!-- Main Headline -->
+          <h1 class="hero-headline mb-4">
+            Perform Your Pooja with <span class="highlight-text">Professional</span> Purohits
+          </h1>
+
+          <!-- Description -->
+          <p class="hero-description mb-4">
+            Connect with 5000+ certified Vedic priests for authentic poojas, homams, and ceremonies. 
+            Quality pooja materials delivered to your doorstep.
+          </p>
+
+          <!-- Search/Selection Interface -->
+          <div class="search-interface">
+            <div class="row g-3">
+              <!-- City Selection -->
+              <div class="col-md-6">
+                <div class="form-group position-relative">
+                  <i class="bi bi-geo-alt-fill input-icon"></i>
+                  <select class="form-select form-select-lg" [(ngModel)]="selectedCity" id="citySelect">
+                    <option value="bangalore" selected>Bangalore</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="delhi">Delhi</option>
+                    <option value="chennai">Chennai</option>
+                    <option value="hyderabad">Hyderabad</option>
+                    <option value="pune">Pune</option>
+                    <option value="kolkata">Kolkata</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Priest Preference -->
+              <div class="col-md-6">
+                <div class="form-group position-relative">
+                  <i class="bi bi-person-badge-fill input-icon"></i>
+                  <select class="form-select form-select-lg" [(ngModel)]="selectedPriest" id="priestSelect">
+                    <option value="tamil" selected>Tamil</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="telugu">Telugu</option>
+                    <option value="kannada">Kannada</option>
+                    <option value="malayalam">Malayalam</option>
+                    <option value="sanskrit">Sanskrit</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- View All Services Button -->
+            <div class="mt-4">
+              <button class="btn btn-primary btn-lg w-100 view-services-btn" (click)="viewAllServices()">
+                View All Services
+                <i class="bi bi-arrow-right ms-2"></i>
+              </button>
+            </div>
+
+            <!-- Online E-Puja Note -->
+            <div class="mt-3 d-flex align-items-center e-puja-note">
+              <i class="bi bi-circle-fill me-2"></i>
+              <small>Online E-Puja available for international devotees via Zoom</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

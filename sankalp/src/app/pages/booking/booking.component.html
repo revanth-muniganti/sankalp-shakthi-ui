@@ -1,0 +1,326 @@
+<div class="booking-page">
+  <!-- App Header - Fixed -->
+  <app-header></app-header>
+
+  <!-- Main Booking Content -->
+  <section class="booking-section">
+      <!-- Back Navigation -->
+      <div class="back-navigation">
+        <a (click)="goBackToServices()" class="back-link">
+          <i class="bi bi-arrow-left"></i>
+          <span>Back to Services</span>
+        </a>
+      </div>
+
+    
+
+      <div class="d-flex gap-3 align-items-center">
+        <!-- Left Column - Main Content -->
+        <div class="col-lg-8">
+            <!-- Stepper Progress -->
+          <div class="stepper-container">
+            <div class="stepper d-flex align-items-center justify-content-center">
+              <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1" (click)="goToStep(1)">
+                <div class="step-icon">
+                  <i class="bi" [class.bi-calendar]="currentStep === 1" [class.bi-check]="currentStep > 1"></i>
+                </div>
+                <span class="step-label">Date & Time</span>
+              </div>
+              <div class="step-connector" [class.completed]="currentStep > 1"></div>
+              <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2" (click)="goToStep(2)">
+                <div class="step-icon">
+                  <i class="bi" [class.bi-person]="currentStep === 2" [class.bi-check]="currentStep > 2"></i>
+                </div>
+                <span class="step-label">Your Details</span>
+              </div>
+              <div class="step-connector" [class.completed]="currentStep > 2"></div>
+              <div class="step" [class.active]="currentStep >= 3" [class.completed]="currentStep > 3" (click)="goToStep(3)">
+                <div class="step-icon">
+                  <i class="bi" [class.bi-check-circle]="currentStep === 3" [class.bi-check]="currentStep > 3"></i>
+                </div>
+                <span class="step-label">Confirmation</span>
+              </div>
+            </div>
+          </div>
+          <!-- Step 1: Date & Time -->
+          <div class="step-content" *ngIf="currentStep === 1">
+            <h2 class="step-title mb-3">Select Date & Time</h2>
+
+            <div class="d-flex gap-3">
+               <!-- Choose Date -->
+            <div class="col-md-6 mb-4">
+              <label class="form-label">
+                Choose a Date *
+              </label>
+              <div class="datepicker-wrapper">
+                <div class="input-group datepicker-group">
+                  <span class="input-group-text">
+                  </span>
+                  <input 
+                    type="date" 
+                    class="form-control datepicker-input" 
+                    [value]="getDateInputValue()"
+                    [min]="getMinDate()"
+                    (change)="onDateChange($event)"
+                    required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Choose Time -->
+            <div class="col-md-6 mb-4">
+              <label class="form-label">
+                Choose a Time *
+              </label>
+              <div class="timepicker-wrapper">
+                <div class="input-group timepicker-group">
+                  <span class="input-group-text">
+                  </span>
+                  <input 
+                    type="time" 
+                    class="form-control timepicker-input" 
+                    [value]="getTimeInputValue()"
+                    (change)="onTimeChange($event)"
+                    required>
+                </div>
+               
+              </div>
+            </div>
+            </div>
+
+            <!-- Continue Button -->
+            <div class="step-actions d-flex justify-content-end align-items-center">
+              <button 
+                type="button" 
+                class="btn btn-primary continue-btn" 
+                (click)="nextStep()"
+                [disabled]="!selectedDate || !bookingData.selectedTime">
+                Continue
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Your Details -->
+          <div class="step-content" *ngIf="currentStep === 2">
+            <h2 class="step-title">Your Details</h2>
+
+            <form class="booking-form">
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="bi bi-person"></i>
+                  Full Name *
+                </label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  placeholder="Your full name"
+                  [(ngModel)]="bookingData.fullName"
+                  name="fullName"
+                  required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="bi bi-telephone"></i>
+                  Phone Number *
+                </label>
+                <input 
+                  type="tel" 
+                  class="form-control" 
+                  placeholder="+91 98765 43210"
+                  [(ngModel)]="bookingData.phoneNumber"
+                  name="phoneNumber"
+                  required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="bi bi-envelope"></i>
+                  Email Address *
+                </label>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  placeholder="your@email.com"
+                  [(ngModel)]="bookingData.email"
+                  name="email"
+                  required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="bi bi-geo-alt"></i>
+                  Complete Address *
+                </label>
+                <input
+                  class="form-control" 
+                  rows="3"
+                  placeholder="House/Flat no., Street, Landmark, City"
+                  [(ngModel)]="bookingData.address"
+                  name="address"
+                  required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  Special Instructions (Optional)
+                </label>
+                <textarea  style="height:100px !important"
+                  class="form-control" 
+                  rows="3"
+                  placeholder="Any special requirements or notes..."
+                  [(ngModel)]="bookingData.specialInstructions"
+                  name="specialInstructions"></textarea>
+              </div>
+
+              <div class="d-flex align-items-center justify-content-between">
+                <button type="button" class="btn btn-outline-primary" (click)="previousStep()">
+                   Back
+                </button>
+                <button type="button" class="btn btn-primary" (click)="nextStep()" [disabled]="!bookingData.fullName || !bookingData.email || !bookingData.address">
+                  Review Booking 
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Step 3: Confirmation -->
+          <div class="step-content" *ngIf="currentStep === 3">
+            <div class="confirmation-header">
+              <div class="confirmation-icon">
+                <i class="bi bi-star-fill"></i>
+              </div>
+              <h2 class="step-title mb-2">Confirm Your Booking</h2>
+              <p class="step-subtitle">Please review your booking details.</p>
+            </div>
+
+            <div class="booking-review">
+              <div class="review-item">
+                <span class="review-label">Service:</span>
+                <span class="review-value">{{ service.name }}</span>
+              </div>
+              <div class="review-item">
+                <span class="review-label">Date:</span>
+                <span class="review-value">{{ getSelectedDateString() }}</span>
+              </div>
+              <div class="review-item">
+                <span class="review-label">Time:</span>
+                <span class="review-value">{{ bookingData.selectedTime }}</span>
+              </div>
+              <div class="review-item">
+                <span class="review-label">Location:</span>
+                <span class="review-value">{{ service.location }}</span>
+              </div>
+              <div class="review-item">
+                <span class="review-label">Priest Language:</span>
+                <span class="review-value">{{ service.priest }}</span>
+              </div>
+              <div class="review-item">
+                <span class="review-label">Name:</span>
+                <span class="review-value">{{ bookingData.fullName }}</span>
+              </div>
+              <div class="review-item">
+                <span class="review-label">Phone:</span>
+                <span class="review-value">{{ bookingData.phoneNumber }}</span>
+              </div>
+              <div class="review-item total-item">
+                <span class="review-label">Total Amount:</span>
+                <span class="review-value price">₹{{ service.price | number }}</span>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              {{ errorMessage }}
+            </div>
+
+            <div class="form-actions d-flex justify-content-between align-items-center">
+              <button type="button" class="btn btn-outline-primary" (click)="previousStep()" [disabled]="submitting">
+                <i class="bi bi-arrow-left"></i> Back
+              </button>
+              <button type="button" class="btn btn-primary" (click)="proceedToPayment()" [disabled]="submitting">
+                <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                <i *ngIf="!submitting" class="bi bi-check"></i>
+                {{ submitting ? 'Creating Booking...' : 'Proceed to Payment' }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - Summary Sidebar -->
+        <div class="col-lg-4">
+          <div class="booking-summary">
+            <div class="summary-header">
+              <div class="sparkle-icon">
+                <i class="bi bi-star-fill"></i>
+              </div>
+            </div>
+            <div class="summary-content">
+              <h3 class="summary-service-name">{{ service.name }}</h3>
+              <div class="summary-details">
+                <div class="summary-item">
+                  <i class="bi bi-geo-alt-fill"></i>
+                  <span>{{ service.location }} • {{ service.priest }}</span>
+                </div>
+                <div class="summary-item" *ngIf="selectedDate">
+                  <i class="bi bi-calendar"></i>
+                  <span>{{ getShortDateString() }}</span>
+                </div>
+                <div class="summary-item" *ngIf="bookingData.selectedTime">
+                  <i class="bi bi-clock"></i>
+                  <span>{{ bookingData.selectedTime }}</span>
+                </div>
+              </div>
+              <div class="summary-total">
+                <span>Total</span>
+                <span class="total-price">₹{{ service.price | number }}</span>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+  </section>
+
+
+  <!-- Success Modal -->
+  <div class="modal fade show" [class.show]="showSuccessModal" [style.display]="showSuccessModal ? 'block' : 'none'" 
+       tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true" 
+       [attr.aria-hidden]="!showSuccessModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content success-modal-content">
+        <div class="modal-body text-center p-5">
+          <div class="success-icon mb-4">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+          <h3 class="modal-title mb-3" id="successModalLabel">Booking Confirmed!</h3>
+          <p class="text-muted mb-4">
+            Your booking has been successfully created.
+          </p>
+          <div class="booking-details mb-4">
+            <div class="detail-item">
+              <strong>Booking ID:</strong> #{{ bookingId }}
+            </div>
+            <div class="detail-item">
+              <strong>Service:</strong> {{ service.name }}
+            </div>
+            <div class="detail-item">
+              <strong>Date:</strong> {{ getSelectedDateString() }}
+            </div>
+            <div class="detail-item">
+              <strong>Time:</strong> {{ bookingData.selectedTime }}
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary btn-lg" (click)="closeSuccessModal()">
+            Proceed to Payment
+            <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop -->
+  <div class="modal-backdrop fade show" *ngIf="showSuccessModal" (click)="closeSuccessModal()"></div>
+</div>

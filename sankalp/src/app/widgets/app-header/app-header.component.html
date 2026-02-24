@@ -1,0 +1,125 @@
+<header class="app-header">
+  <div class="top-header">
+    <div class="container-fluid">
+      <div class="row align-items-center py-2">
+        <!-- Logo and Tagline -->
+        <div class="col-lg-3 col-md-4 col-6">
+          <div class="logo-section d-flex align-items-center">
+            <div class="logo-circle me-2">
+              <img src="assets/circlelogo.jpg" alt="Sankalp Logo" class="logo-image">
+            </div>
+            <div class="logo-text">
+              <h5 class="mb-0 fw-bold text-dark">Sankalp</h5>
+              <small class="text-muted d-none d-md-block">YOUR VEDIC PARTNER</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="col-lg-6 col-md-8 d-none d-md-block">       
+          <nav class="main-nav">
+            <ul class="nav-list">
+              <li *ngFor="let item of navItems" class="nav-item">
+                <a 
+                  [routerLink]="item.route" 
+                  [class.active]="item.active"
+                  (click)="setActiveNavItem(item)"
+                  class="nav-link">
+                  {{ item.label }}
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Right Side Actions -->
+        <div class="col-lg-3 col-md-12 col-6">
+          <div class="header-actions d-flex align-items-center justify-content-end gap-3">
+            <!-- Not Authenticated: Show Phone, Sign Up, Login -->
+            <ng-container *ngIf="!isAuthenticated">
+              <!-- Phone Number -->
+              <div class="phone-section d-none d-lg-flex align-items-center">
+                <i class="bi bi-telephone-fill text-primary me-2"></i>
+                <span class="phone-number">9080 005005</span>
+              </div>
+
+              <!-- Sign Up Button -->
+              <button 
+                class="btn btn-outline-secondary btn-sm signup-btn" 
+                type="button"
+                routerLink="/registration">
+                Sign Up
+              </button>
+
+              <!-- Login Button -->
+              <button 
+                class="btn btn-primary btn-sm login-btn" 
+                type="button"
+                routerLink="/login">
+                Login
+              </button>
+            </ng-container>
+
+            <!-- Authenticated: Show Profile -->
+            <div class="profile-section" *ngIf="isAuthenticated">
+              <div class="profile-wrapper d-flex align-items-center gap-2" (click)="toggleProfileDropdown()">
+                <span class="username-text d-none d-md-inline">{{ username }}</span>
+                <div class="profile-avatar" [class.active]="showProfileDropdown">
+                  <span class="avatar-initials">{{ getInitials() }}</span>
+                </div>
+              </div>
+              
+              <!-- Profile Dropdown -->
+              <div class="profile-dropdown" [class.show]="showProfileDropdown" (click)="$event.stopPropagation()">
+                <div class="dropdown-item" (click)="onProfileClick()">
+                  <i class="bi bi-person"></i>
+                  <span>Profile</span>
+                </div>
+                <div class="dropdown-item" (click)="onEditClick()">
+                  <i class="bi bi-pencil"></i>
+                  <span>Edit</span>
+                </div>
+                <div class="dropdown-item" (click)="onSettingsClick()">
+                  <i class="bi bi-gear"></i>
+                  <span>Settings</span>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-item" (click)="onLogoutClick()">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Logout</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button 
+              class="mobile-menu-toggle d-md-none btn btn-link" 
+              type="button"
+              (click)="toggleMobileMenu()"
+              [attr.aria-expanded]="isMobileMenuOpen">
+              <i class="bi" [class.bi-list]="!isMobileMenuOpen" [class.bi-x-lg]="isMobileMenuOpen"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Menu -->
+  <div class="mobile-nav" [class.show]="isMobileMenuOpen">
+    <nav class="mobile-nav-menu">
+      <ul class="mobile-nav-list">
+        <li *ngFor="let item of navItems" class="mobile-nav-item">
+          <a 
+            [routerLink]="item.route" 
+            [class.active]="item.active"
+            (click)="setActiveNavItem(item)"
+            class="mobile-nav-link">
+            {{ item.label }}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+

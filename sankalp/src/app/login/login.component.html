@@ -1,227 +1,79 @@
-<div class="container-fluid d-flex align-items-center justify-content-center py-3 py-md-4 login-container">
-  <div class="row w-100 justify-content-center">
-    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-      <div class="card shadow-lg border-0">
-        <div class="card-body p-4 p-md-5">
-          <!-- Header -->
-          <div class="text-center mb-4">
-            <img src="assets/logo.png" alt="Logo" class="img-fluid mb-3" style="max-height: 100px;">
-            <h2 class="card-title mb-2">Sign in to your Sankalp Shakti account</h2>
-          </div>
+<div class="login-container">
+  <!-- Background Image -->
+  <div class="background-image-wrapper">
+    <img src="assets/backgroundimage.jpg" alt="Background" class="background-image" />
+    <div class="image-overlay"></div>
+  </div>
 
-          <!-- Error Message -->
-          <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            {{ errorMessage }}
-          </div>
+  <!-- Login Form Overlay -->
+  <div class="form-overlay">
+    <div class="form-content">
+      <!-- Brand Logo -->
+      <img src="assets/logo.png" alt="Sankalp" class="brand-logo" />
 
-          <!-- Authentication Tabs -->
-          <div class="auth-tabs">
-            <button
-              type="button"
-              class="tab-button"
-              [class.active]="activeTab === 'mobile'"
-              (click)="switchTab('mobile')"
-            >
-              <i class="bi bi-phone"></i>
-              <span>Mobile OTP</span>
-            </button>
-            <button
-              type="button"
-              class="tab-button"
-              [class.active]="activeTab === 'username'"
-              (click)="switchTab('username')"
-            >
-              <i class="bi bi-person"></i>
-              <span>Username</span>
-            </button>
-          </div>
+      <!-- Error/Success Messages -->
+      <div class="message-container" *ngIf="errorMessage">
+        <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+      </div>
 
-          <!-- Login Form -->
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <!-- Username Login Form -->
-            <div *ngIf="activeTab === 'username'">
-              <!-- Username Field -->
-              <div class="mb-3">
-                <label for="username" class="form-label fw-semibold">Username</label>
-                <div class="input-icon-wrapper">
-                  <i class="bi bi-person input-icon"></i>
-                  <input
-                    type="text"
-                    class="form-control input-with-icon"
-                    [class.is-invalid]="username?.invalid && username?.touched"
-                    id="username"
-                    formControlName="username"
-                    placeholder="Enter your username"
-                    aria-describedby="usernameFeedback"
-                  >
-                </div>
-                <div id="usernameFeedback" class="invalid-feedback" *ngIf="username?.invalid && username?.touched">
-                  <span *ngIf="username?.errors?.['required']">Username is required</span>
-                  <span *ngIf="username?.errors?.['minlength']">Username must be at least 3 characters long</span>
-                </div>
-              </div>
-
-              <!-- Password Field -->
-              <div class="mb-4">
-                <label for="password" class="form-label fw-semibold">Password</label>
-                <div class="input-icon-wrapper">
-                  <i class="bi bi-lock input-icon"></i>
-                  <input
-                    [type]="showPassword ? 'text' : 'password'"
-                    class="form-control input-with-icon input-with-icon-right"
-                    [class.is-invalid]="password?.invalid && password?.touched"
-                    id="password"
-                    formControlName="password"
-                    placeholder="Enter your password"
-                    aria-describedby="passwordFeedback"
-                  >
-                  <button
-                    type="button"
-                    class="password-toggle-btn"
-                    (click)="togglePasswordVisibility()"
-                    tabindex="-1"
-                  >
-                    <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
-                  </button>
-                </div>
-                <div id="passwordFeedback" class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
-                  <span *ngIf="password?.errors?.['required']">Password is required</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Mobile OTP Login Form -->
-            <div *ngIf="activeTab === 'mobile'">
-              <!-- Mobile Number Field -->
-              <div class="mb-3">
-                <label for="mobileNumber" class="form-label fw-semibold">Mobile Number</label>
-                <div class="input-icon-wrapper">
-                  <i class="bi bi-phone input-icon"></i>
-                  <input
-                    type="tel"
-                    class="form-control input-with-icon"
-                    [class.is-invalid]="mobileNumber?.invalid && mobileNumber?.touched"
-                    id="mobileNumber"
-                    formControlName="mobileNumber"
-                    placeholder="Enter your 10-digit mobile number"
-                    maxlength="10"
-                    aria-describedby="mobileFeedback"
-                  >
-                </div>
-                <div id="mobileFeedback" class="invalid-feedback" *ngIf="mobileNumber?.invalid && mobileNumber?.touched">
-                  <span *ngIf="mobileNumber?.errors?.['required']">Mobile number is required</span>
-                  <span *ngIf="mobileNumber?.errors?.['pattern']">Please enter a valid 10-digit mobile number</span>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- Submit Button -->
-            <div class="d-grid mb-3">
-              <button
-                type="submit"
-                class="btn btn-primary btn-lg d-flex align-items-center justify-content-center"
-                [disabled]="(activeTab === 'username' ? (username?.invalid || password?.invalid) : mobileNumber?.invalid) || isLoading"
-              >
-                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                <span *ngIf="!isLoading">{{ activeTab === 'mobile' ? 'Send OTP' : 'Sign In' }}</span>
-                <span *ngIf="isLoading && activeTab === 'username'">Signing In...</span>
-                <span *ngIf="isLoading && activeTab === 'mobile'">Sending OTP...</span>
-              </button>
-            </div>
-          </form>
-
-          <!-- Create Account Link -->
-          <div class="text-center">
-            <p class="mb-0 text-muted">
-              Don't have an account?
-              <a href="#" class="text-decoration-none" (click)="navigateToRegistration(); $event.preventDefault()">Create Account</a>
-            </p>
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <!-- Email/Username Field -->
+        <div class="form-group mb-2">
+          <label for="username">Email</label>
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            placeholder="Enter your email"
+            [class.error]="username?.invalid && username?.touched"
+          />
+          <div class="error-text" *ngIf="username?.invalid && username?.touched">
+            <span *ngIf="username?.errors?.['required']">Email is required</span>
+            <span *ngIf="username?.errors?.['minlength']">Email must be at least 3 characters</span>
           </div>
         </div>
+
+        <!-- Password Field -->
+        <div class="form-group mb-2">
+          <label for="password">Password</label>
+          <div class="password-input-wrapper">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="Enter your password"
+              [class.error]="password?.invalid && password?.touched"
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()"
+              tabindex="-1"
+            >
+              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
+          <div class="error-text" *ngIf="password?.invalid && password?.touched">
+            <span *ngIf="password?.errors?.['required']">Password is required</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="isLoading || loginForm.invalid"
+        >
+          <span *ngIf="!isLoading">Login</span>
+          <span *ngIf="isLoading">Logging in...</span>
+        </button>
+      </form>
+
+      <!-- Footer Links -->
+      <div class="form-footer">
+        <a routerLink="/registration" class="footer-link">Don't have an account? <span class="underline">Sign up</span></a>
       </div>
     </div>
   </div>
-
-  <!-- OTP Verification Modal -->
-  <div class="modal fade show" [class.show]="showOtpModal" [style.display]="showOtpModal ? 'block' : 'none'" 
-       tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true" 
-       [attr.aria-hidden]="!showOtpModal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header border-0 pb-0">
-          <button type="button" class="btn-close" (click)="closeOtpModal()" aria-label="Close"></button>
-        </div>
-        <div class="modal-body p-4">
-          <div class="text-center mb-4">
-            <h4 class="modal-title mb-2" id="otpModalLabel">Verify OTP</h4>
-            <p class="text-muted mb-0">
-              We've sent a 6-digit OTP to<br>
-              <strong>{{ mobileNumber?.value }}</strong>
-            </p>
-          </div>
-
-          <form [formGroup]="otpForm" (ngSubmit)="verifyOtp()">
-            <div class="mb-3">
-              <label for="otpInput" class="form-label fw-semibold">Enter OTP</label>
-              <input
-                type="text"
-                class="form-control text-center"
-                [class.is-invalid]="otp?.invalid && otp?.touched"
-                id="otpInput"
-                formControlName="otp"
-                placeholder="000000"
-                maxlength="6"
-                pattern="[0-9]*"
-                inputmode="numeric"
-                style="font-size: 1.5rem; letter-spacing: 0.5rem;"
-                aria-describedby="otpFeedback"
-                (keypress)="$event.charCode >= 48 && $event.charCode <= 57"
-              >
-              <div id="otpFeedback" class="invalid-feedback" *ngIf="otp?.invalid && otp?.touched">
-                <span *ngIf="otp?.errors?.['required']">OTP is required</span>
-                <span *ngIf="otp?.errors?.['pattern']">Please enter a valid 6-digit OTP</span>
-              </div>
-            </div>
-
-            <div class="d-grid mb-3">
-              <button
-                type="submit"
-                class="btn btn-primary btn-lg"
-                [disabled]="otpForm.invalid"
-              >
-                Verify OTP
-              </button>
-            </div>
-
-            <div class="text-center">
-              <p class="mb-2 text-muted">
-                Didn't receive OTP?
-              </p>
-              <button
-                type="button"
-                class="btn btn-link p-0"
-                (click)="resendOtp()"
-                [disabled]="countdown > 0"
-              >
-                Resend OTP
-                <span *ngIf="countdown > 0"> ({{ countdown }}s)</span>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Backdrop -->
-  <div class="modal-backdrop fade show" *ngIf="showOtpModal" (click)="closeOtpModal()"></div>
-
-  <!-- Interests Selection Modal -->
-  <app-interests-selection
-    *ngIf="showInterestsModal"
-    (interestsSelected)="onInterestsSelected($event)"
-    (close)="onInterestsModalClose()"
-  ></app-interests-selection>
 </div>

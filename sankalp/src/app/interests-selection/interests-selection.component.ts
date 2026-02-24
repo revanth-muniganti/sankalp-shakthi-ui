@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 interface Interest {
   id: string;
@@ -18,6 +19,8 @@ interface Interest {
 export class InterestsSelectionComponent {
   @Output() interestsSelected = new EventEmitter<string[]>();
   @Output() close = new EventEmitter<void>();
+
+  constructor(private router: Router) {}
 
   maxSelections = 5;
   selectedCount = 0;
@@ -58,7 +61,11 @@ export class InterestsSelectionComponent {
       .filter(interest => interest.selected)
       .map(interest => interest.id);
     
+    // Emit the selected interests to parent component
     this.interestsSelected.emit(selectedInterests);
+    
+    // Navigate to home page
+    this.router.navigate(['/home']);
   }
 
   onClose() {

@@ -1,0 +1,125 @@
+<div class="package-selection-page">
+  <!-- App Header - Fixed -->
+  <app-header></app-header>
+
+  <!-- Main Content -->
+  <section class="package-selection-section">
+    <!-- Back Navigation & Page Title - same row as service-details -->
+    <div class="section-header">
+      <div class="back-navigation">
+        <a (click)="goBack()" class="back-link">
+          <i class="bi bi-arrow-left"></i>
+          <span>Back to Services</span>
+        </a>
+      </div>
+      <h1 class="page-title">Select Your Package</h1>
+    </div>
+
+    <div class="row">
+      <!-- Left Column - Package Cards -->
+      <div class="col-lg-8">
+        <div class="packages-container">
+          <!-- Economy Package -->
+          <div class="package-card" [class.selected]="selectedPackage?.id === packages[0].id">
+            <div class="package-header mb-2">
+              <h3 class="package-name">{{ packages[0].name }}</h3>
+              <span class="package-subtitle">{{ packages[0].subtitle }}</span>
+            </div>
+            
+            <div class="package-procedures d-flex align-items-center mb-2 border-bottom">
+             <div class="col-md-6">
+              <h4 class="section-title">Procedure involved:</h4>
+              <ul class="procedure-list">
+                <li class="d-flex align-items-center" *ngFor="let procedure of packages[0].procedures">{{ procedure.name }} --- {{ procedure.duration }}</li>
+              </ul>
+             </div>
+             <div class="col-md-6">
+              <h4 class="section-title">Inclusions:</h4>
+              <div class="inclusions-list">
+                <div class="inclusion-item" *ngFor="let inclusion of packages[0].inclusions">
+                  <i class="bi me-3" [class.bi-check-square-fill]="inclusion.included" [class.bi-square]="!inclusion.included"></i>
+                  <span>{{ inclusion.name }}</span>
+                </div>
+              </div>
+
+             </div>
+            </div>
+            
+            
+            
+            <div class="package-footer mt-3">
+              <div class="package-price">Rs {{ packages[0].price | number:'1.2-2' }}</div>
+              <div class="package-actions">
+                <button type="button" class="btn btn-outline-primary" (click)="readMore(packages[0])">Read More</button>
+                <button type="button" class="btn btn-primary" (click)="selectPackage(packages[0])">Select</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Column - Order Summary & Trusted Rituals -->
+      <div class="col-lg-4">
+        <!-- Order Summary Card -->
+        <div class="order-summary-card">
+          <h3 class="summary-title">Order Summary</h3>
+          <div class="summary-details">
+            <div class="summary-item">
+              <span class="summary-label">City:</span>
+              <span class="summary-value">{{ service.location || 'Hyderabad' }}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Priest Preference:</span>
+              <span class="summary-value">{{ service.priest || 'Telugu' }}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Pooja Location:</span>
+              <span class="summary-value">At My Home / Function Hall</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Pooja Name:</span>
+              <span class="summary-value">{{ service.name }}</span>
+            </div>
+          </div>
+          <button 
+            class="btn btn-proceed" 
+            (click)="proceedToDateAvailability()"
+            [disabled]="!selectedPackage">
+            Proceed To Check Date Availability
+            <i class="bi bi-arrow-right"></i>
+          </button>
+          <p class="proceed-hint" *ngIf="!selectedPackage">Please select a package to proceed</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Bootstrap 5.3 Modal: All Pooja Materials / Package Details -->
+  <div class="modal fade" [class.show]="showReadMoreModal" [style.display]="showReadMoreModal ? 'block' : 'none'"
+       tabindex="-1" aria-labelledby="readMoreModalLabel" aria-hidden="true"
+       [attr.aria-hidden]="!showReadMoreModal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="readMoreModalLabel">
+            {{ selectedPackageForModal?.name }} Package – Pooja Materials &amp; Details
+          </h5>
+          <button type="button" class="btn-close" (click)="closeReadMoreModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" *ngIf="selectedPackageForModal">
+          <p class="mb-2">Pooja Samagries listed below will be brought by us:</p>
+          <ul class="pooja-materials-list mb-3">
+            <li *ngFor="let item of poojaMaterialsByUs">{{ item }}</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" (click)="closeReadMoreModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade" [class.show]="showReadMoreModal" *ngIf="showReadMoreModal"
+       (click)="closeReadMoreModal()"></div>
+</div>

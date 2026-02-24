@@ -1,0 +1,483 @@
+.app-header {
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  // Ensure header stays on top during scroll
+  will-change: transform;
+  // Prevent content from showing through
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  // CSS variable for header height (can be used by other components)
+  --header-height: 70px;
+  
+  @media (max-width: 767.98px) {
+    --header-height: 65px;
+  }
+}
+
+.top-header {
+  padding: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.logo-section {
+  .logo-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+    .logo-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  .logo-text {
+    h5 {
+      color: #333333;
+      font-size: 1.25rem;
+    }
+
+    small {
+      font-size: 0.7rem;
+      color: #666666;
+    }
+  }
+}
+
+
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333333;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #ff6600;
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+  &:focus {
+    outline: none;
+  }
+
+  &.active {
+    color: #ff6600;
+   
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #ff6600;
+    }
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  .phone-section {
+    .phone-number {
+      color: #333333;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+  }
+
+  .signup-btn {
+    border-color: #cccccc;
+    color: #333333;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+
+    &:hover {
+      background-color: #f5f5f5;
+      border-color: #999999;
+    }
+  }
+
+  .login-btn {
+    background-color: #ff6600;
+    border-color: #ff6600;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+
+    &:hover {
+      background-color: #e55a00;
+      border-color: #e55a00;
+    }
+  }
+
+  // Profile Section
+  .profile-section {
+    position: relative;
+
+    .profile-wrapper {
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      .username-text {
+        color: #333333;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .profile-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .avatar-initials {
+          color: #ffffff;
+          font-weight: 700;
+          font-size: 1rem;
+          text-transform: uppercase;
+        }
+
+        &:hover,
+        &.active {
+          border-color: #ff6600;
+          box-shadow: 0 4px 8px rgba(255, 102, 0, 0.3);
+          transform: scale(1.05);
+        }
+      }
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      min-width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      overflow: hidden;
+
+      &.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        color: #333333;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        font-size: 0.95rem;
+
+        i {
+          color: #666666;
+          font-size: 1rem;
+          width: 20px;
+          text-align: center;
+        }
+
+        &:hover {
+          background-color: #f5f5f5;
+          color: #ff6600;
+
+          i {
+            color: #ff6600;
+          }
+        }
+
+        &:first-child {
+          border-radius: 8px 8px 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 0 8px 8px;
+        }
+      }
+
+      .dropdown-divider {
+        height: 1px;
+        background-color: #e0e0e0;
+        margin: 0.25rem 0;
+      }
+    }
+  }
+}
+
+.language-selector {
+  min-width: 100px;
+}
+
+.language-dropdown {
+  font-size: 0.875rem;
+  padding: 0.375rem 1.75rem 0.375rem 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  &:focus {
+    border-color: #ff6600;
+    box-shadow: 0 0 0 0.2rem rgba(255, 102, 0, 0.25);
+  }
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  i {
+    font-size: 1.25rem;
+    color: #333333;
+  }
+
+  .action-label {
+    font-size: 0.7rem;
+    color: #333333;
+    font-weight: 500;
+  }
+
+  &:hover {
+    i, .action-label {
+      color: #ff6600;
+    }
+  }
+}
+
+.mobile-menu-toggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #333333;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: #ff6600;
+  }
+}
+
+
+// Mobile Navigation
+.mobile-nav {
+  display: none;
+  background-color: #ffffff;
+  border-top: 1px solid #f0f0f0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+
+  &.show {
+    display: block;
+    max-height: 500px;
+  }
+}
+
+.mobile-nav-menu {
+  padding: 1rem 0;
+}
+
+.mobile-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-nav-item {
+  margin: 0;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  color: #333333;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #fff5f0;
+    color: #ff6600;
+    padding-left: 2rem;
+  }
+
+  &.active {
+    color: #ff6600;
+    background-color: #fff5f0;
+    border-left: 3px solid #ff6600;
+  }
+}
+
+// Responsive Design
+@media (max-width: 991.98px) {
+  .header-actions {
+    gap: 0.5rem;
+
+    .phone-section {
+      .phone-number {
+        font-size: 0.875rem;
+      }
+    }
+
+    .signup-btn,
+    .login-btn {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.875rem;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .top-header {
+    padding: 0.75rem 0;
+  }
+
+  .logo-section {
+    .logo-circle {
+      width: 38px;
+      height: 38px;
+
+      .logo-image {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .logo-text {
+      h5 {
+        font-size: 1rem;
+      }
+
+      small {
+        display: none;
+      }
+    }
+  }
+
+  .header-actions {
+    gap: 0.5rem;
+
+    .phone-section {
+      display: none !important;
+    }
+
+    .signup-btn,
+    .login-btn {
+      font-size: 0.875rem;
+      padding: 0.35rem 0.75rem;
+    }
+
+    .profile-section {
+      .profile-wrapper {
+        .username-text {
+          display: none;
+        }
+
+        .profile-avatar {
+          width: 36px;
+          height: 36px;
+
+          .avatar-initials {
+            font-size: 0.9rem;
+          }
+        }
+      }
+
+      .profile-dropdown {
+        right: 0;
+        min-width: 160px;
+      }
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+ 
+  .header-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  
+}
+
